@@ -1,10 +1,11 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const Web3 = require('web3');
-const { interface, bytecode } = require('./compile');
+
+const { abi, evm } = require('./compile');
 
 const provider = new HDWalletProvider(
-    'clock still cushion security wire water dance slab valid ship hammer chalk',
-    'https://rinkeby.infura.io/v3/84aafbf69a0c444790c3fdd16c8455cf'
+    'clock still cushion security wire water dance slab valid ship hammer chalk', // Your mnemonic
+    'https://rinkeby.infura.io/v3/84aafbf69a0c444790c3fdd16c8455cf' // Your infura url
 );
 
 const web3 = new Web3(provider);
@@ -14,9 +15,9 @@ const deploy = async () => {
     
     console.log('Attempting to deploy from account', accounts[0]);
 
-    const result = await new web3.eth.Contract(JSON.parse(interface))
+    const result = await new web3.eth.Contract(abi)
         .deploy({
-            data: bytecode,
+            data: evm.bytecode.object,
             arguments: [
                 'Hi there!'
             ]
